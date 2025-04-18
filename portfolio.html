@@ -1,0 +1,1924 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sujan Ghimire - Web Developer &amp; Problem Solver specializing in MERN stack and PHP development">
+    <meta name="keywords" content="web developer, portfolio, Sujan Ghimire, frontend, backend, React, Node.js, JavaScript">
+    <meta name="author" content="Sujan Ghimire">
+    <title>Sujan Ghimire | Creative Developer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                fontFamily: {
+                    'mono': ['JetBrains Mono', 'monospace'],
+                    'sans': ['Inter', 'sans-serif'],
+                    'display': ['Unbounded', 'cursive'],
+                },
+                extend: {
+                    colors: {
+                        code: {
+                            purple: '#5D5CDE',
+                            green: '#21F396',
+                            blue: '#00B8FF',
+                            yellow: '#FFD166',
+                            pink: '#FF6AC2',
+                            red: '#FF5757',
+                            dark: '#0F172A',
+                            darker: '#070B14',
+                            light: '#F8FAFC',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-slow': 'float 8s ease-in-out infinite',
+                        'float-slower': 'float 10s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite alternate',
+                        'type': 'typing 3.5s steps(30, end), blink .75s step-end infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'spin-reverse': 'spin 8s linear infinite reverse',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 5px rgba(93, 92, 222, 0.5)' },
+                            '100%': { boxShadow: '0 0 20px rgba(93, 92, 222, 0.8)' },
+                        },
+                        typing: {
+                            'from': { width: '0' },
+                            'to': { width: '100%' }
+                        },
+                        blink: {
+                            'from, to': { borderColor: 'transparent' },
+                            '50%': { borderColor: '#5D5CDE' }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Unbounded:wght@300;400;500;600;700&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 4rem;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #5D5CDE;
+            border-radius: 2px;
+        }
+        
+        /* WebGL Canvas */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+        
+        /* Floating Elements */
+        .code-float {
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        
+        /* Code pill with shadow */
+        .code-pill {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .code-pill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(93, 92, 222, 0.1), rgba(0, 0, 0, 0));
+            z-index: -1;
+            transition: transform 0.3s ease;
+            transform: translateX(-100%);
+        }
+        
+        .code-pill:hover::before {
+            transform: translateX(0);
+        }
+        
+        /* Typing animation */
+        .typing-container {
+            display: inline-block;
+        }
+        
+        .typing {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #5D5CDE;
+            animation: typing 3.5s steps(30, end), blink .75s step-end infinite;
+        }
+        
+        /* Terminal style section */
+        .terminal {
+            background-color: #0F172A;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #F8FAFC;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .terminal::before {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #FF5757;
+            box-shadow: 20px 0 0 #FFD166, 40px 0 0 #21F396;
+        }
+        
+        .terminal-content {
+            margin-top: 15px;
+        }
+        
+        .command-line {
+            display: flex;
+        }
+        
+        .prompt {
+            color: #21F396;
+            margin-right: 10px;
+        }
+        
+        .command {
+            color: #F8FAFC;
+        }
+        
+        .result {
+            margin-left: 20px;
+            color: #AAB7C4;
+        }
+        
+        /* Glowing text effect */
+        .glow-text {
+            text-shadow: 0 0 5px rgba(93, 92, 222, 0.5);
+            transition: text-shadow 0.3s ease;
+        }
+        
+        .glow-text:hover {
+            text-shadow: 0 0 10px rgba(93, 92, 222, 0.8), 0 0 20px rgba(93, 92, 222, 0.5);
+        }
+        
+        /* 3D Button effect */
+        .btn-3d {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .btn-3d::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #5D5CDE;
+            transform: translateZ(-8px);
+            top: 8px;
+            left: 0;
+            border-radius: inherit;
+            opacity: 0.7;
+        }
+        
+        .btn-3d:hover {
+            transform: translateY(-4px) translateZ(0);
+            box-shadow: 0 10px 20px rgba(93, 92, 222, 0.3);
+        }
+        
+        .btn-3d:active {
+            transform: translateY(2px) translateZ(0);
+        }
+        
+        /* Skill bar */
+        .skill-bar {
+            height: 4px;
+            border-radius: 2px;
+            background: #5D5CDE;
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+        }
+        
+        .skill-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #5D5CDE;
+            box-shadow: 0 0 8px #5D5CDE;
+        }
+        
+        /* Project card with 3D hover */
+        .project-card {
+            perspective: 1000px;
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(93, 92, 222, 0.2);
+        }
+        
+        .project-card .card-content {
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease-out;
+        }
+        
+        .project-card:hover .card-content {
+            transform: translateZ(20px);
+        }
+        
+        .project-card .project-image {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.8));
+            z-index: 1;
+        }
+        
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #5D5CDE;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, opacity 0.3s;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background-color: #5D5CDE;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+        }
+        
+        /* Neon glow effect */
+        .neon-border {
+            position: relative;
+            border: 1px solid rgba(93, 92, 222, 0.3);
+            overflow: hidden;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 10px rgba(93, 92, 222, 0.5);
+            z-index: -1;
+        }
+        
+        /* Revealing elements on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Timeline for experience */
+        .timeline-container {
+            position: relative;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 18px;
+            width: 2px;
+            background: rgba(93, 92, 222, 0.3);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 14px;
+            width: 10px;
+            height: 10px;
+            background: #5D5CDE;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(93, 92, 222, 0.8);
+        }
+        
+        /* Code syntax highlighting */
+        .token.comment {
+            color: #6A7280;
+        }
+        .token.string {
+            color: #21F396;
+        }
+        .token.number {
+            color: #FF6AC2;
+        }
+        .token.keyword {
+            color: #5D5CDE;
+        }
+        .token.function {
+            color: #00B8FF;
+        }
+        .token.operator {
+            color: #FFD166;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .cursor, .cursor-dot {
+                display: none;
+            }
+            
+            .terminal::before {
+                top: 10px;
+                left: 12px;
+                width: 8px;
+                height: 8px;
+                box-shadow: 16px 0 0 #FFD166, 32px 0 0 #21F396;
+            }
+        }
+    </style>
+</head>
+<body class="bg-code-darker text-code-light min-h-screen overflow-x-hidden">
+    <!-- Three.js Canvas -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    
+    <!-- Floating code elements -->
+    <div id="floating-code-container"></div>
+    
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-code-darker/70 border-b border-code-purple/20">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#home" class="group flex items-center space-x-2">
+                    <div class="w-10 h-10 rounded-md flex items-center justify-center bg-code-purple/10 border border-code-purple/30 group-hover:bg-code-purple/20 transition-all duration-300">
+                        <span class="font-mono text-code-purple font-bold">&lt;/&gt;</span>
+                    </div>
+                    <span class="font-display text-xl text-code-light">
+                        <span class="text-code-purple">Sujan</span>.dev
+                    </span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="font-mono text-code-light hover:text-code-purple transition-colors duration-300 hover:underline underline-offset-4">.home()</a>
+                    <a href="#about" class="font-mono text-code-light hover:text-code-purple transition-colors duration-300 hover:underline underline-offset-4">.about()</a>
+                    <a href="#skills" class="font-mono text-code-light hover:text-code-purple transition-colors duration-300 hover:underline underline-offset-4">.skills()</a>
+                    <a href="#projects" class="font-mono text-code-light hover:text-code-purple transition-colors duration-300 hover:underline underline-offset-4">.projects()</a>
+                    <a href="#contact" class="font-mono text-code-light hover:text-code-purple transition-colors duration-300 hover:underline underline-offset-4">.contact()</a>
+                    
+                    <!-- CV button -->
+                    <a href="CV.pdf" target="_blank" id="cv-download-btn" class="relative btn-3d font-mono text-code-light bg-code-purple/80 hover:bg-code-purple px-5 py-2 rounded-md" download="">
+                        resumeDownload()
+                    </a>
+                </nav>
+                
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="block md:hidden">
+                    <div class="space-y-1.5 cursor-pointer">
+                        <span class="block w-8 h-0.5 bg-code-light"></span>
+                        <span class="block w-8 h-0.5 bg-code-light"></span>
+                        <span class="block w-6 h-0.5 bg-code-light ml-auto"></span>
+                    </div>
+                </button>
+            </div>
+            
+            <!-- Mobile menu (hidden by default) -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <nav class="flex flex-col space-y-4">
+                    <a href="#home" class="font-mono text-code-light px-4 py-2 hover:bg-code-purple/10 rounded-md">.home()</a>
+                    <a href="#about" class="font-mono text-code-light px-4 py-2 hover:bg-code-purple/10 rounded-md">.about()</a>
+                    <a href="#skills" class="font-mono text-code-light px-4 py-2 hover:bg-code-purple/10 rounded-md">.skills()</a>
+                    <a href="#projects" class="font-mono text-code-light px-4 py-2 hover:bg-code-purple/10 rounded-md">.projects()</a>
+                    <a href="#contact" class="font-mono text-code-light px-4 py-2 hover:bg-code-purple/10 rounded-md">.contact()</a>
+                    <a href="CV.pdf" id="mobile-cv-btn" class="font-mono text-code-light px-4 py-2 bg-code-purple/20 rounded-md" download="">resumeDownload()</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen pt-32 md:pt-0 flex items-center relative overflow-hidden">
+        <div class="container mx-auto px-4 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Text content -->
+                <div class="space-y-8 reveal">
+                    <div class="inline-block px-4 py-1 font-mono text-sm bg-code-purple/10 border border-code-purple/30 rounded-full text-code-purple">
+                        <span class="typing-container">
+                            <span class="typing">Full Stack Developer &amp; Problem Solver</span>
+                        </span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-display leading-tight">
+                        <div>Hello, I'm</div>
+                        <div class="text-code-purple glow-text">Sujan <span class="text-code-green">Ghimire</span></div>
+                    </h1>
+                    
+                    <p class="font-mono text-lg text-code-light/80 max-w-xl leading-relaxed">
+                        I craft digital experiences with clean code and creative solutions. 
+                        <span class="text-code-purple">const passion = "web development";</span>
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-5">
+                        <a href="#projects" class="btn-3d font-mono px-8 py-3 bg-code-purple text-code-light rounded-md inline-flex items-center">
+                            <span>viewProjects()</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                        
+                        <a href="#contact" class="font-mono px-8 py-3 bg-transparent border border-code-purple/50 text-code-purple hover:bg-code-purple/10 rounded-md transition-all duration-300">
+                            <span>contactMe()</span>
+                        </a>
+                    </div>
+                    
+                    <div class="flex items-center space-x-5 pt-4">
+                        <a href="https://github.com/suzzaanDEV" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-md flex items-center justify-center bg-code-purple/10 border border-code-purple/30 text-code-light hover:text-code-purple hover:bg-code-purple/20 transition-all duration-300">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/sujan-ghimire" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-md flex items-center justify-center bg-code-purple/10 border border-code-purple/30 text-code-light hover:text-code-purple hover:bg-code-purple/20 transition-all duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="mailto:sznghimire61@gmail.com" class="w-10 h-10 rounded-md flex items-center justify-center bg-code-purple/10 border border-code-purple/30 text-code-light hover:text-code-purple hover:bg-code-purple/20 transition-all duration-300">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Terminal with code visualization -->
+                <div class="terminal reveal">
+                    <div class="terminal-content">
+                        <div class="command-line mb-3">
+                            <div class="prompt">~$</div>
+                            <div class="command">whoami</div>
+                        </div>
+                        <div class="result mb-5">
+                            <div class="text-code-purple">Sujan Ghimire</div>
+                            <div>Full Stack Developer based in Nepal</div>
+                        </div>
+                        
+                        <div class="command-line mb-3">
+                            <div class="prompt">~$</div>
+                            <div class="command">cat skills.json</div>
+                        </div>
+                        <div class="result mb-5">
+                            <pre><code class="language-javascript">{
+  "frontend": ["HTML", "CSS", "JavaScript", "React"],
+  "backend": ["Node.js", "Express", "PHP"],
+  "database": ["MongoDB", "MySQL"],
+  "tools": ["Git", "VS Code", "Figma", "Postman"]
+}</code></pre>
+                        </div>
+                        
+                        <div class="command-line mb-3">
+                            <div class="prompt">~$</div>
+                            <div class="command">ls -la projects/</div>
+                        </div>
+                        <div class="result mb-5">
+                            <div><span class="text-code-green">RedDrop</span> - Blood Donor Management</div>
+                            <div><span class="text-code-green">Handicrafts</span> - E-commerce Platform</div>
+                            <div><span class="text-code-green">MERN-Auth</span> - Authentication System</div>
+                            <div><span class="text-code-green">+3 more</span></div>
+                        </div>
+                        
+                        <div class="command-line mb-2">
+                            <div class="prompt">~$</div>
+                            <div class="command">
+                                <span class="type-effect">contact --email sznghimire61@gmail.com</span>
+                                <span class="blinking-cursor">|</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-code-light/50 animate-bounce">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-24 relative">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center mb-16 reveal">
+                <div class="relative">
+                    <h2 class="text-4xl md:text-5xl font-display text-code-light">
+                        <span class="text-code-purple">.about</span><span class="text-code-green">()</span>
+                    </h2>
+                    <div class="absolute -bottom-3 left-0 w-full h-1 bg-code-purple/50"></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <!-- Bio -->
+                <div class="lg:col-span-3 reveal">
+                    <div class="terminal h-full">
+                        <div class="terminal-content">
+                            <div class="command-line mb-3">
+                                <div class="prompt">~$</div>
+                                <div class="command">cat biography.md</div>
+                            </div>
+                            <div class="result space-y-4">
+                                <h3 class="text-2xl font-display text-code-purple">Hello World!</h3>
+                                <p class="leading-relaxed">
+                                    I'm a passionate <span class="text-code-green">Full Stack Developer</span> with expertise in creating responsive and user-friendly web applications. My journey in web development started with a fascination for how things work on the internet, and has evolved into a professional pursuit of crafting digital experiences.
+                                </p>
+                                <p class="leading-relaxed">
+                                    Currently pursuing my <span class="text-code-blue">Bachelor's degree in Computer Application</span>, I balance academic learning with hands-on development work. I specialize in MERN stack development and have experience with PHP frameworks. I'm constantly exploring new technologies to enhance my skills.
+                                </p>
+                                <p class="leading-relaxed">
+                                    When I'm not coding, you might find me solving coding challenges, exploring new tech, or listening to music. I believe in continuous learning and applying creativity to problem-solving.
+                                </p>
+                                <div class="text-code-green font-bold">// Open to opportunities and collaborations</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Personal Info and Education -->
+                <div class="lg:col-span-2 space-y-8 reveal">
+                    <!-- Personal Info -->
+                    <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg p-6">
+                        <h3 class="text-xl font-display text-code-purple mb-6">&lt;personal-info /&gt;</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-md flex items-center justify-center bg-code-purple/10 text-code-purple">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm text-code-light/70 font-mono">Email</div>
+                                    <a href="mailto:sznghimire61@gmail.com" class="text-code-light hover:text-code-purple transition-colors">sznghimire61@gmail.com</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-md flex items-center justify-center bg-code-purple/10 text-code-purple">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm text-code-light/70 font-mono">Location</div>
+                                    <div class="text-code-light">Godawari-13, Lalitpur, Nepal</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-md flex items-center justify-center bg-code-purple/10 text-code-purple">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm text-code-light/70 font-mono">Languages</div>
+                                    <div class="text-code-light">English, Nepali</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-md flex items-center justify-center bg-code-purple/10 text-code-purple">
+                                    <i class="fab fa-github"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm text-code-light/70 font-mono">GitHub</div>
+                                    <a href="https://github.com/suzzaanDEV" target="_blank" rel="noopener noreferrer" class="text-code-purple hover:underline">github.com/suzzaanDEV</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Education -->
+                    <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg p-6">
+                        <h3 class="text-xl font-display text-code-purple mb-6">&lt;education /&gt;</h3>
+                        
+                        <div class="timeline-container space-y-8 pl-10">
+                            <div class="timeline-line"></div>
+                            
+                            <div class="relative">
+                                <div class="timeline-dot" style="top: 8px;"></div>
+                                <div>
+                                    <h4 class="text-lg font-mono text-code-light">Bachelor of Computer Application</h4>
+                                    <div class="text-code-purple">Tribhuwan University</div>
+                                    <div class="text-sm text-code-light/70">2022 - Present</div>
+                                </div>
+                            </div>
+                            
+                            <div class="relative">
+                                <div class="timeline-dot" style="top: 8px;"></div>
+                                <div>
+                                    <h4 class="text-lg font-mono text-code-light">School Leaving Certificate Examination</h4>
+                                    <div class="text-code-purple">NEB</div>
+                                    <div class="text-sm text-code-light/70">2020</div>
+                                </div>
+                            </div>
+                            
+                            <div class="relative">
+                                <div class="timeline-dot" style="top: 8px;"></div>
+                                <div>
+                                    <h4 class="text-lg font-mono text-code-light">Secondary Education Examination</h4>
+                                    <div class="text-code-purple">Bani Bilash Secondary School</div>
+                                    <div class="text-sm text-code-light/70">2018</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CV Download -->
+                    <a href="CV.pdf" id="about-cv-btn" class="btn-3d w-full py-4 bg-code-purple text-code-light font-mono rounded-md text-center" download="">
+                        downloadResume({ format: 'pdf' })
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Interests -->
+            <div class="mt-12 reveal">
+                <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg p-6">
+                    <h3 class="text-xl font-display text-code-purple mb-6">&lt;interests /&gt;</h3>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                        <div class="bg-code-purple/5 backdrop-blur-sm border border-code-purple/20 rounded-lg p-4 text-center hover:bg-code-purple/10 transition-all duration-300">
+                            <div class="w-12 h-12 mx-auto mb-3 bg-code-dark rounded-md flex items-center justify-center text-code-purple">
+                                <i class="fas fa-code text-xl"></i>
+                            </div>
+                            <div class="font-mono text-code-light">Web Development</div>
+                        </div>
+                        
+                        <div class="bg-code-purple/5 backdrop-blur-sm border border-code-purple/20 rounded-lg p-4 text-center hover:bg-code-purple/10 transition-all duration-300">
+                            <div class="w-12 h-12 mx-auto mb-3 bg-code-dark rounded-md flex items-center justify-center text-code-green">
+                                <i class="fas fa-puzzle-piece text-xl"></i>
+                            </div>
+                            <div class="font-mono text-code-light">Problem Solving</div>
+                        </div>
+                        
+                        <div class="bg-code-purple/5 backdrop-blur-sm border border-code-purple/20 rounded-lg p-4 text-center hover:bg-code-purple/10 transition-all duration-300">
+                            <div class="w-12 h-12 mx-auto mb-3 bg-code-dark rounded-md flex items-center justify-center text-code-blue">
+                                <i class="fas fa-book-open text-xl"></i>
+                            </div>
+                            <div class="font-mono text-code-light">Online Learning</div>
+                        </div>
+                        
+                        <div class="bg-code-purple/5 backdrop-blur-sm border border-code-purple/20 rounded-lg p-4 text-center hover:bg-code-purple/10 transition-all duration-300">
+                            <div class="w-12 h-12 mx-auto mb-3 bg-code-dark rounded-md flex items-center justify-center text-code-yellow">
+                                <i class="fas fa-laptop-code text-xl"></i>
+                            </div>
+                            <div class="font-mono text-code-light">Coding Challenges</div>
+                        </div>
+                        
+                        <div class="bg-code-purple/5 backdrop-blur-sm border border-code-purple/20 rounded-lg p-4 text-center hover:bg-code-purple/10 transition-all duration-300">
+                            <div class="w-12 h-12 mx-auto mb-3 bg-code-dark rounded-md flex items-center justify-center text-code-pink">
+                                <i class="fas fa-music text-xl"></i>
+                            </div>
+                            <div class="font-mono text-code-light">Listening Music</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 relative">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center mb-16 reveal">
+                <div class="relative">
+                    <h2 class="text-4xl md:text-5xl font-display text-code-light">
+                        <span class="text-code-purple">.skills</span><span class="text-code-green">()</span>
+                    </h2>
+                    <div class="absolute -bottom-3 left-0 w-full h-1 bg-code-purple/50"></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Frontend Skills -->
+                <div class="reveal">
+                    <div class="terminal h-full">
+                        <div class="terminal-content">
+                            <div class="command-line mb-3">
+                                <div class="prompt">~$</div>
+                                <div class="command">node skills-frontend.js</div>
+                            </div>
+                            <div class="result">
+                                <h3 class="text-xl font-mono text-code-blue mb-6">// Frontend Skills</h3>
+                                
+                                <div class="space-y-6">
+                                    <!-- HTML -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">HTML</div>
+                                            <div class="text-code-purple">90%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="90"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- CSS -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">CSS</div>
+                                            <div class="text-code-purple">85%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="85"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- JavaScript -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">JavaScript</div>
+                                            <div class="text-code-purple">80%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="80"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- React -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">React</div>
+                                            <div class="text-code-purple">75%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="75"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Responsive Design -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">Responsive Design</div>
+                                            <div class="text-code-purple">85%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="85"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Backend Skills -->
+                <div class="reveal">
+                    <div class="terminal h-full">
+                        <div class="terminal-content">
+                            <div class="command-line mb-3">
+                                <div class="prompt">~$</div>
+                                <div class="command">node skills-backend.js</div>
+                            </div>
+                            <div class="result">
+                                <h3 class="text-xl font-mono text-code-blue mb-6">// Backend Skills</h3>
+                                
+                                <div class="space-y-6">
+                                    <!-- Node.js -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">Node.js</div>
+                                            <div class="text-code-purple">75%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="75"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Express JS -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">Express JS</div>
+                                            <div class="text-code-purple">75%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="75"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- PHP -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">PHP</div>
+                                            <div class="text-code-purple">70%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="70"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Databases -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">MongoDB/MySQL</div>
+                                            <div class="text-code-purple">80%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="80"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- API Development -->
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <div class="font-mono text-code-green">API Development</div>
+                                            <div class="text-code-purple">80%</div>
+                                        </div>
+                                        <div class="w-full h-1 bg-code-dark/50 rounded-full overflow-hidden">
+                                            <div class="skill-bar animate-pulse-glow" data-width="80"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tools & Technologies -->
+                <div class="lg:col-span-2 reveal">
+                    <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg p-6">
+                        <h3 class="text-xl font-display text-code-purple mb-6">&lt;tools-and-technologies /&gt;</h3>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>Git</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>VS Code</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>npm</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>Postman</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>MongoDB</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>MySQL</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>Bootstrap</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>Tailwind</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>SCSS</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>Figma</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>XAMPP</span>
+                            </div>
+                            <div class="code-pill flex items-center justify-center py-3 px-4 bg-code-dark rounded-md text-code-light font-mono border border-code-purple/20 hover:border-code-purple/50 transition-all duration-300">
+                                <span>Heroku</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 relative">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center mb-16 reveal">
+                <div class="relative">
+                    <h2 class="text-4xl md:text-5xl font-display text-code-light">
+                        <span class="text-code-purple">.projects</span><span class="text-code-green">()</span>
+                    </h2>
+                    <div class="absolute -bottom-3 left-0 w-full h-1 bg-code-purple/50"></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 - Red Drop -->
+                <div class="project-card rounded-lg overflow-hidden reveal">
+                    <div class="card-content">
+                        <div class="project-image h-48 flex items-center justify-center bg-code-red/50">
+                            <i class="fas fa-tint text-6xl text-code-light opacity-50"></i>
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
+                                <h3 class="text-2xl font-display text-code-light">Red Drop</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 space-y-4">
+                            <div class="text-code-light font-mono leading-relaxed">
+                                Blood Donor Management System with user-friendly interfaces for donors and administrators.
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-purple">PHP</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-green">MySQL</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-blue">Bootstrap</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-yellow">jQuery</span>
+                            </div>
+                            
+                            <a href="https://github.com/suzzaanDEV/Reddrop" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                                <i class="fab fa-github mr-2"></i> View Project
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 - Handicrafts -->
+                <div class="project-card rounded-lg overflow-hidden reveal">
+                    <div class="card-content">
+                        <div class="project-image h-48 flex items-center justify-center bg-code-yellow/50">
+                            <i class="fas fa-store text-6xl text-code-light opacity-50"></i>
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
+                                <h3 class="text-2xl font-display text-code-light">Handicrafts</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 space-y-4">
+                            <div class="text-code-light font-mono leading-relaxed">
+                                A handicraft e-commerce platform with product catalog, cart functionality, and admin dashboard.
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-purple">PHP</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-green">MySQL</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-blue">JavaScript</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-yellow">CSS</span>
+                            </div>
+                            
+                            <a href="https://github.com/suzzaanDEV/handicrafts" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                                <i class="fab fa-github mr-2"></i> View Project
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 - Inventory Management -->
+                <div class="project-card rounded-lg overflow-hidden reveal">
+                    <div class="card-content">
+                        <div class="project-image h-48 flex items-center justify-center bg-code-blue/50">
+                            <i class="fas fa-boxes text-6xl text-code-light opacity-50"></i>
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
+                                <h3 class="text-2xl font-display text-code-light">Inventory System</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 space-y-4">
+                            <div class="text-code-light font-mono leading-relaxed">
+                                Inventory management system for e-commerce business with stock tracking and analytics dashboard.
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-purple">PHP</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-green">MySQL</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-blue">Bootstrap</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-yellow">jQuery</span>
+                            </div>
+                            
+                            <a href="https://github.com/suzzaanDEV/InventoryManagementSystemPhp" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                                <i class="fab fa-github mr-2"></i> View Project
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 - MERN AUTH -->
+                <div class="project-card rounded-lg overflow-hidden reveal">
+                    <div class="card-content">
+                        <div class="project-image h-48 flex items-center justify-center bg-code-green/50">
+                            <i class="fas fa-lock text-6xl text-code-light opacity-50"></i>
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
+                                <h3 class="text-2xl font-display text-code-light">MERN Auth</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 space-y-4">
+                            <div class="text-code-light font-mono leading-relaxed">
+                                Full-stack authentication system using MERN stack with JWT for secure user management.
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-purple">MongoDB</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-green">Express</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-blue">React</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-yellow">Node.js</span>
+                            </div>
+                            
+                            <a href="https://mern-auth-gd1j.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                                <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5 - Infinity Scroll -->
+                <div class="project-card rounded-lg overflow-hidden reveal">
+                    <div class="card-content">
+                        <div class="project-image h-48 flex items-center justify-center bg-code-purple/50">
+                            <i class="fas fa-images text-6xl text-code-light opacity-50"></i>
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
+                                <h3 class="text-2xl font-display text-code-light">Infinity Scroll</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 space-y-4">
+                            <div class="text-code-light font-mono leading-relaxed">
+                                Infinity photo scrolling web app with smooth loading and responsive grid layout for images.
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-purple">HTML</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-green">CSS</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-blue">JavaScript</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-yellow">RESTful API</span>
+                            </div>
+                            
+                            <a href="https://suzzaandev.github.io/infScroll/" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                                <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 6 - Quote Generator -->
+                <div class="project-card rounded-lg overflow-hidden reveal">
+                    <div class="card-content">
+                        <div class="project-image h-48 flex items-center justify-center bg-code-pink/50">
+                            <i class="fas fa-quote-right text-6xl text-code-light opacity-50"></i>
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
+                                <h3 class="text-2xl font-display text-code-light">Quote Generator</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 space-y-4">
+                            <div class="text-code-light font-mono leading-relaxed">
+                                Generates random inspirational quotes from an API with elegant design and social sharing.
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-purple">HTML</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-green">CSS</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-blue">JavaScript</span>
+                                <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-yellow">RESTful API</span>
+                            </div>
+                            
+                            <a href="https://suzzaandev.github.io/QuoteGenerator/" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                                <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Project - Doob -->
+            <div class="mt-12 reveal">
+                <div class="project-card rounded-lg overflow-hidden">
+                    <div class="card-content">
+                        <div class="grid grid-cols-1 lg:grid-cols-2">
+                            <div class="project-image flex items-center justify-center bg-code-blue/50 min-h-[16rem]">
+                                <i class="fas fa-laptop text-8xl text-code-light opacity-50"></i>
+                                <div class="absolute inset-0 flex items-center justify-center z-10">
+                                    <div class="text-center">
+                                        <h3 class="text-3xl font-display text-code-light mb-2">Doob</h3>
+                                        <div class="text-code-light/80 font-mono">Modern Responsive Design</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-8 space-y-6">
+                                <h3 class="text-xl font-display text-code-purple">Featured Project</h3>
+                                
+                                <div class="text-code-light font-mono leading-relaxed">
+                                    A responsive website using HTML and CSS with modern design principles and a mobile-first approach. This project showcases clean, efficient, and visually appealing interfaces.
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="text-code-green mt-1"><i class="fas fa-check-circle"></i></div>
+                                        <div class="text-code-light">Fully responsive across all device sizes</div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="text-code-green mt-1"><i class="fas fa-check-circle"></i></div>
+                                        <div class="text-code-light">Modern UI with subtle animations</div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="text-code-green mt-1"><i class="fas fa-check-circle"></i></div>
+                                        <div class="text-code-light">Optimized for performance and accessibility</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-purple">HTML</span>
+                                    <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-green">CSS</span>
+                                    <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-blue">Responsive</span>
+                                    <span class="px-2 py-1 bg-code-dark rounded-md text-xs font-mono text-code-yellow">UI/UX</span>
+                                </div>
+                                
+                                <div class="flex flex-wrap gap-4">
+                                    <a href="https://suzzaandev.github.io/doob-f/" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block px-6 py-3 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                                        <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                                    </a>
+                                    
+                                    <a href="https://github.com/suzzaanDEV/doob-f" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 bg-transparent border border-code-purple text-code-purple font-mono rounded-md hover:bg-code-purple/10 transition-all duration-300">
+                                        <i class="fab fa-github mr-2"></i> View Code
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Certificates Section -->
+    <section id="certificates" class="py-24 relative">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center mb-16 reveal">
+                <div class="relative">
+                    <h2 class="text-4xl md:text-5xl font-display text-code-light">
+                        <span class="text-code-purple">.certificates</span><span class="text-code-green">()</span>
+                    </h2>
+                    <div class="absolute -bottom-3 left-0 w-full h-1 bg-code-purple/50"></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Certificate 1 - React JS -->
+                <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg overflow-hidden neon-border reveal">
+                    <div class="h-32 bg-code-blue/30 relative flex items-center justify-center">
+                        <i class="fab fa-react text-code-light text-5xl opacity-50 animate-pulse-glow"></i>
+                    </div>
+                    
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-xl font-display text-code-blue">React JS</h3>
+                        <div class="font-mono text-code-light/80">Complete Guide for Frontend Web Development</div>
+                        
+                        <a href="https://www.udemy.com/certificate/UC-ee0fab5c-e22b-4c65-be4b-bcf240170b5c/" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                            viewCertificate()
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Certificate 2 - Computer Science -->
+                <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg overflow-hidden neon-border reveal">
+                    <div class="h-32 bg-code-purple/30 relative flex items-center justify-center">
+                        <i class="fas fa-laptop-code text-code-light text-5xl opacity-50 animate-pulse-glow"></i>
+                    </div>
+                    
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-xl font-display text-code-purple">Computer Science</h3>
+                        <div class="font-mono text-code-light/80">MetaBootcamp: Beginner to Intermediate 2025</div>
+                        
+                        <a href="https://www.udemy.com/certificate/UC-184f1b8a-ce65-4fcc-842d-29baf22bddb9/" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                            viewCertificate()
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Certificate 3 - Web Scraping -->
+                <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg overflow-hidden neon-border reveal">
+                    <div class="h-32 bg-code-green/30 relative flex items-center justify-center">
+                        <i class="fas fa-code text-code-light text-5xl opacity-50 animate-pulse-glow"></i>
+                    </div>
+                    
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-xl font-display text-code-green">Web Scraping APIs</h3>
+                        <div class="font-mono text-code-light/80">Web Scraping APIs for Data Science 2021</div>
+                        
+                        <a href="https://www.udemy.com/certificate/UC-b0a08c53-6e51-4a5c-a395-f2a474d8dd85/" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                            viewCertificate()
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Certificate 4 - Time Management -->
+                <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg overflow-hidden neon-border reveal">
+                    <div class="h-32 bg-code-yellow/30 relative flex items-center justify-center">
+                        <i class="fas fa-clock text-code-light text-5xl opacity-50 animate-pulse-glow"></i>
+                    </div>
+                    
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-xl font-display text-code-yellow">Time Management</h3>
+                        <div class="font-mono text-code-light/80">10x your Productivity with Time Management</div>
+                        
+                        <a href="https://www.udemy.com/certificate/UC-307accf6-b37e-44ee-8a5a-86052d8dcdb5/" target="_blank" rel="noopener noreferrer" class="btn-3d inline-block w-full text-center py-3 px-4 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                            viewCertificate()
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center mb-16 reveal">
+                <div class="relative">
+                    <h2 class="text-4xl md:text-5xl font-display text-code-light">
+                        <span class="text-code-purple">.contact</span><span class="text-code-green">()</span>
+                    </h2>
+                    <div class="absolute -bottom-3 left-0 w-full h-1 bg-code-purple/50"></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Contact Form -->
+                <div class="terminal h-full reveal">
+                    <div class="terminal-content">
+                        <div class="command-line mb-3">
+                            <div class="prompt">~$</div>
+                            <div class="command">vim contact-form.jsx</div>
+                        </div>
+                        
+                        <form id="contact-form" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-mono text-code-green mb-1">name: <span class="text-code-purple">string</span></label>
+                                <input type="text" id="name" name="name" class="w-full bg-code-darker border border-code-purple/30 rounded-md py-3 px-4 text-code-light font-mono focus:outline-none focus:border-code-purple text-base" placeholder="Enter your name" required="">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-mono text-code-green mb-1">email: <span class="text-code-purple">string</span></label>
+                                <input type="email" id="email" name="email" class="w-full bg-code-darker border border-code-purple/30 rounded-md py-3 px-4 text-code-light font-mono focus:outline-none focus:border-code-purple text-base" placeholder="Enter your email" required="">
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-sm font-mono text-code-green mb-1">subject: <span class="text-code-purple">string</span></label>
+                                <input type="text" id="subject" name="subject" class="w-full bg-code-darker border border-code-purple/30 rounded-md py-3 px-4 text-code-light font-mono focus:outline-none focus:border-code-purple text-base" placeholder="Enter subject" required="">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-mono text-code-green mb-1">message: <span class="text-code-purple">string</span></label>
+                                <textarea id="message" name="message" rows="4" class="w-full bg-code-darker border border-code-purple/30 rounded-md py-3 px-4 text-code-light font-mono focus:outline-none focus:border-code-purple text-base" placeholder="Enter your message" required=""></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-3d w-full py-3 bg-code-purple/80 hover:bg-code-purple text-code-light font-mono rounded-md transition-all duration-300">
+                                sendMessage()
+                            </button>
+                        </form>
+                        
+                        <!-- Success Message (Hidden by default) -->
+                        <div id="form-success" class="hidden mt-6 p-4 bg-code-green/10 border border-code-green/30 rounded-md text-code-green font-mono">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-xl mr-2"></i>
+                                <span>Message sent successfully! I'll get back to you soon.</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Error Message (Hidden by default) -->
+                        <div id="form-error" class="hidden mt-6 p-4 bg-code-red/10 border border-code-red/30 rounded-md text-code-red font-mono">
+                            <div class="flex items-center">
+                                <i class="fas fa-exclamation-circle text-xl mr-2"></i>
+                                <span>Error sending message. Please try again later.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="space-y-8 reveal">
+                    <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg p-6 neon-border">
+                        <h3 class="text-xl font-display text-code-purple mb-6">&lt;contact-info /&gt;</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-md flex items-center justify-center bg-code-purple/10 text-code-purple">
+                                    <i class="fas fa-envelope text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-code-light font-mono mb-1">Email Address:</h4>
+                                    <a href="mailto:sznghimire61@gmail.com" class="text-code-purple hover:underline">sznghimire61@gmail.com</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-md flex items-center justify-center bg-code-purple/10 text-code-green">
+                                    <i class="fas fa-phone text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-code-light font-mono mb-1">Phone Number:</h4>
+                                    <a href="tel:+9779865100888" class="text-code-green hover:underline">+977 9865100888</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-md flex items-center justify-center bg-code-purple/10 text-code-blue">
+                                    <i class="fas fa-map-marker-alt text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-code-light font-mono mb-1">Location:</h4>
+                                    <div class="text-code-blue">Godawari-13, Lalitpur, Nepal</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-md flex items-center justify-center bg-code-purple/10 text-code-yellow">
+                                    <i class="fas fa-clock text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-code-light font-mono mb-1">Availability:</h4>
+                                    <div class="text-code-yellow">Always ready to connect</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-code-dark/50 backdrop-blur-sm border border-code-purple/20 rounded-lg p-6 neon-border">
+                        <h3 class="text-xl font-display text-code-purple mb-6">&lt;social-profiles /&gt;</h3>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <a href="https://github.com/suzzaanDEV" target="_blank" rel="noopener noreferrer" class="flex items-center p-4 bg-code-darker rounded-md hover:bg-code-dark transition-all duration-300 group">
+                                <div class="w-10 h-10 rounded-md flex items-center justify-center bg-code-purple/10 text-code-light group-hover:text-code-purple transition-colors mr-3">
+                                    <i class="fab fa-github text-xl"></i>
+                                </div>
+                                <div class="font-mono text-code-light">GitHub</div>
+                            </a>
+                            
+                            <a href="https://linkedin.com/in/sujan-ghimire" target="_blank" rel="noopener noreferrer" class="flex items-center p-4 bg-code-darker rounded-md hover:bg-code-dark transition-all duration-300 group">
+                                <div class="w-10 h-10 rounded-md flex items-center justify-center bg-code-purple/10 text-code-light group-hover:text-code-purple transition-colors mr-3">
+                                    <i class="fab fa-linkedin-in text-xl"></i>
+                                </div>
+                                <div class="font-mono text-code-light">LinkedIn</div>
+                            </a>
+                            
+                            <a href="mailto:sznghimire61@gmail.com" class="flex items-center p-4 bg-code-darker rounded-md hover:bg-code-dark transition-all duration-300 group">
+                                <div class="w-10 h-10 rounded-md flex items-center justify-center bg-code-purple/10 text-code-light group-hover:text-code-purple transition-colors mr-3">
+                                    <i class="fas fa-envelope text-xl"></i>
+                                </div>
+                                <div class="font-mono text-code-light">Email</div>
+                            </a>
+                            
+                            <a href="tel:+9779865100888" class="flex items-center p-4 bg-code-darker rounded-md hover:bg-code-dark transition-all duration-300 group">
+                                <div class="w-10 h-10 rounded-md flex items-center justify-center bg-code-purple/10 text-code-light group-hover:text-code-purple transition-colors mr-3">
+                                    <i class="fas fa-phone text-xl"></i>
+                                </div>
+                                <div class="font-mono text-code-light">Phone</div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- CV Download -->
+                    <a href="CV.pdf"  target="_blank" id="contact-cv-btn" class="btn-3d w-full py-4 bg-code-purple text-code-light font-mono rounded-md text-center" download="">
+                        downloadResume({ format: 'pdf' })
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-8 relative border-t border-code-purple/20">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="#home" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-md flex items-center justify-center bg-code-purple/10 border border-code-purple/30">
+                            <span class="font-mono text-code-purple font-bold text-sm">&lt;/&gt;</span>
+                        </div>
+                        <span class="font-display text-lg text-code-light">
+                            <span class="text-code-purple">Sujan</span>.dev
+                        </span>
+                    </a>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <div class="font-mono text-code-light/50 text-sm mb-2">© 2024 Sujan Ghimire. All rights reserved.</div>
+                    <div class="font-mono text-code-purple/70 text-xs">Made with <i class="fas fa-heart text-code-red"></i> and <i class="fas fa-code"></i></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Back to top button -->
+        <a href="#home" class="fixed bottom-6 right-6 w-12 h-12 bg-code-purple/80 hover:bg-code-purple text-code-light rounded-md flex items-center justify-center transition-all duration-300 opacity-0 invisible z-50" id="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we're running in a browser environment that supports Three.js
+            if (typeof THREE !== 'undefined') {
+                initThreeJS();
+            }
+            
+            // Initialize floating code elements
+            createFloatingCode();
+            
+            // Custom cursor
+            initCustomCursor();
+            
+            // Mobile menu toggle
+            initMobileMenu();
+            
+            // Activate skill bars on scroll
+            initSkillBars();
+            
+            // Handle scroll reveals
+            initScrollReveals();
+            
+            // Handle contact form
+            initContactForm();
+            
+            // Back to top button
+            initBackToTop();
+            
+            // GSAP animations
+            if (typeof gsap !== 'undefined') {
+                initGSAPAnimations();
+            }
+        });
+        
+        // Three.js background
+        function initThreeJS() {
+            const canvas = document.getElementById('bg-canvas');
+            
+            // Scene setup
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            const scaleArray = new Float32Array(particlesCount);
+            
+            for (let i = 0; i < particlesCount * 3; i += 3) {
+                // Position vertices randomly in a sphere
+                posArray[i] = (Math.random() - 0.5) * 15; // x
+                posArray[i + 1] = (Math.random() - 0.5) * 15; // y
+                posArray[i + 2] = (Math.random() - 0.5) * 15; // z
+                
+                // Random size for each particle
+                scaleArray[i / 3] = Math.random();
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('scale', new THREE.BufferAttribute(scaleArray, 1));
+            
+            // Material with custom shader for reactive particles
+            const particlesMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    color1: { value: new THREE.Color(0x5D5CDE) }, // Purple
+                    color2: { value: new THREE.Color(0x21F396) }, // Green
+                    time: { value: 0 },
+                    mouse: { value: new THREE.Vector2(0, 0) }
+                },
+                vertexShader: `
+                    attribute float scale;
+                    uniform float time;
+                    uniform vec2 mouse;
+                    
+                    void main() {
+                        vec3 pos = position;
+                        
+                        // Add subtle movement
+                        float wobble = sin(time * 0.001 + position.x * 0.05) * 0.1;
+                        pos.y += wobble;
+                        
+                        // React to mouse
+                        float dist = distance(vec3(mouse.x, mouse.y, 0.0), position);
+                        float influence = smoothstep(2.0, 0.0, dist);
+                        pos.z += influence * 2.0;
+                        
+                        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                        gl_PointSize = scale * (30.0 / -mvPosition.z);
+                        gl_Position = projectionMatrix * mvPosition;
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 color1;
+                    uniform vec3 color2;
+                    uniform float time;
+                    
+                    void main() {
+                        // Create circular particles
+                        float dist = distance(gl_PointCoord, vec2(0.5, 0.5));
+                        if (dist > 0.5) discard;
+                        
+                        // Blend between colors based on time
+                        float colorMix = sin(time * 0.001) * 0.5 + 0.5;
+                        vec3 color = mix(color1, color2, colorMix);
+                        
+                        // Add glow effect
+                        float glow = 1.0 - dist * 2.0;
+                        gl_FragColor = vec4(color, glow * 0.5);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // Position the camera
+            camera.position.z = 5;
+            
+            // Mouse movement tracking
+            const mouse = {
+                x: 0,
+                y: 0
+            };
+            
+            document.addEventListener('mousemove', (event) => {
+                // Convert mouse position to normalized device coordinates (-1 to +1)
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                // Update shader uniforms
+                particlesMaterial.uniforms.mouse.value = new THREE.Vector2(mouse.x * 5, mouse.y * 5);
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                // Update camera
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                
+                // Update renderer
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            });
+            
+            // Animation loop
+            let time = 0;
+            const clock = new THREE.Clock();
+            
+            function animate() {
+                const elapsedTime = clock.getElapsedTime();
+                time += 1;
+                
+                // Update uniforms
+                particlesMaterial.uniforms.time.value = time;
+                
+                // Rotate particles mesh
+                particlesMesh.rotation.y = elapsedTime * 0.05;
+                particlesMesh.rotation.x = elapsedTime * 0.03;
+                
+                // Render
+                renderer.render(scene, camera);
+                
+                // Continue animation loop
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        // Create floating code elements
+        function createFloatingCode() {
+            const container = document.getElementById('floating-code-container');
+            
+            // Code snippets to display
+            const codeSnippets = [
+                { content: "const developer = { name: 'Sujan' };", color: 'purple' },
+                { content: "function createWebsite() { }", color: 'green' },
+                { content: "<div class='awesome'></div>", color: 'blue' },
+                { content: "import React from 'react';", color: 'yellow' },
+                { content: "@media (max-width: 768px) {}", color: 'pink' },
+                { content: "git commit -m 'Fix bugs'", color: 'red' },
+                { content: ".then(response => response.json())", color: 'purple' },
+                { content: "npm install express", color: 'green' }
+            ];
+            
+            // Create floating elements
+            for (let i = 0; i < 8; i++) {
+                const snippet = codeSnippets[i];
+                const floatingElement = document.createElement('div');
+                
+                floatingElement.className = 'code-float font-mono text-xs md:text-sm py-1 px-3 rounded-md opacity-20';
+                floatingElement.style.backgroundColor = `rgba(${getColorRGB(snippet.color)}, 0.1)`;
+                floatingElement.style.color = `rgb(${getColorRGB(snippet.color)})`;
+                floatingElement.style.border = `1px solid rgba(${getColorRGB(snippet.color)}, 0.3)`;
+                floatingElement.textContent = snippet.content;
+                
+                // Random position
+                const randomX = Math.random() * 100; // % of viewport width
+                const randomY = Math.random() * 200; // % of document height to cover multiple sections
+                
+                floatingElement.style.left = `${randomX}%`;
+                floatingElement.style.top = `${randomY}vh`;
+                
+                // Animation properties
+                floatingElement.style.animationDuration = `${10 + Math.random() * 20}s`;
+                floatingElement.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Add to container
+                container.appendChild(floatingElement);
+                
+                // Add float animation
+                floatingElement.classList.add(i % 2 === 0 ? 'animate-float' : 'animate-float-slow');
+            }
+            
+            // Get RGB values for colors
+            function getColorRGB(color) {
+                switch (color) {
+                    case 'purple': return '93, 92, 222';
+                    case 'green': return '33, 243, 150';
+                    case 'blue': return '0, 184, 255';
+                    case 'yellow': return '255, 209, 102';
+                    case 'pink': return '255, 106, 194';
+                    case 'red': return '255, 87, 87';
+                    default: return '255, 255, 255';
+                }
+            }
+        }
+        
+        // Initialize custom cursor
+        function initCustomCursor() {
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            
+            if (cursor && cursorDot && window.innerWidth > 768) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.opacity = '1';
+                    cursorDot.style.opacity = '1';
+                    
+                    // Cursor follows mouse with slight delay
+                    cursor.style.left = `${e.clientX}px`;
+                    cursor.style.top = `${e.clientY}px`;
+                    
+                    // Dot follows mouse immediately
+                    cursorDot.style.left = `${e.clientX}px`;
+                    cursorDot.style.top = `${e.clientY}px`;
+                });
+                
+                // Cursor effects on interactive elements
+                const interactiveElements = document.querySelectorAll('a, button, input, textarea, .btn-3d, .project-card');
+                
+                interactiveElements.forEach(element => {
+                    element.addEventListener('mouseenter', () => {
+                        cursor.style.width = '40px';
+                        cursor.style.height = '40px';
+                        cursor.style.backgroundColor = 'rgba(93, 92, 222, 0.1)';
+                        cursor.style.borderWidth = '1px';
+                        cursorDot.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                    });
+                    
+                    element.addEventListener('mouseleave', () => {
+                        cursor.style.width = '20px';
+                        cursor.style.height = '20px';
+                        cursor.style.backgroundColor = 'transparent';
+                        cursor.style.borderWidth = '2px';
+                        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+                    });
+                });
+                
+                // Hide cursor when leaving window
+                document.addEventListener('mouseout', (e) => {
+                    if (e.relatedTarget === null) {
+                        cursor.style.opacity = '0';
+                        cursorDot.style.opacity = '0';
+                    }
+                });
+            }
+        }
+        
+        // Mobile menu toggle
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+                
+                // Close mobile menu when clicking menu items
+                const mobileMenuItems = mobileMenu.querySelectorAll('a');
+                mobileMenuItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+        }
+        
+        // Activate skill bars on scroll
+        function initSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-bar');
+            
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const width = entry.target.getAttribute('data-width');
+                        entry.target.style.width = width + '%';
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            skillBars.forEach(bar => {
+                observer.observe(bar);
+            });
+        }
+        
+        // Handle scroll reveals
+        function initScrollReveals() {
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            revealElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+        
+        // Handle contact form
+        function initContactForm() {
+            const contactForm = document.getElementById('contact-form');
+            const formSuccess = document.getElementById('form-success');
+            const formError = document.getElementById('form-error');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+                    
+                    // Validate form
+                    if (!name || !email || !subject || !message) {
+                        formError.classList.remove('hidden');
+                        formSuccess.classList.add('hidden');
+                        return;
+                    }
+                    
+                    // Simulate form submission (would normally be an AJAX request)
+                    setTimeout(() => {
+                        // Show success message
+                        formSuccess.classList.remove('hidden');
+                        formError.classList.add('hidden');
+                        
+                        // Reset form
+                        contactForm.reset();
+                        
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            formSuccess.classList.add('hidden');
+                        }, 5000);
+                    }, 1000);
+                });
+            }
+        }
+        
+        // Back to top button
+        function initBackToTop() {
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 500) {
+                        backToTopButton.classList.remove('opacity-0', 'invisible');
+                        backToTopButton.classList.add('opacity-100', 'visible');
+                    } else {
+                        backToTopButton.classList.add('opacity-0', 'invisible');
+                        backToTopButton.classList.remove('opacity-100', 'visible');
+                    }
+                });
+            }
+        }
+        
+        // GSAP animations
+        function initGSAPAnimations() {
+            // Register ScrollTrigger plugin
+            if (gsap.registerPlugin) {
+                gsap.registerPlugin(ScrollTrigger);
+                
+                // Timeline animations
+                const timelineDots = document.querySelectorAll('.timeline-dot');
+                timelineDots.forEach(dot => {
+                    gsap.to(dot, {
+                        scrollTrigger: {
+                            trigger: dot,
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        },
+                        boxShadow: "0 0 20px rgba(93, 92, 222, 0.8)",
+                        scale: 1.2,
+                        duration: 0.5,
+                        repeat: 1,
+                        yoyo: true
+                    });
+                });
+                
+                // Section titles
+                const sectionTitles = document.querySelectorAll('h2');
+                sectionTitles.forEach(title => {
+                    gsap.from(title, {
+                        scrollTrigger: {
+                            trigger: title,
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        },
+                        y: 30,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: "power3.out"
+                    });
+                });
+            }
+        }
+    </script>
+
+
+</body></html>
